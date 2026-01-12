@@ -10,20 +10,10 @@ library(tidyverse)
 library(ggiraph)
 library(patchwork)
 library(scales)
-```
-
-
-```{r, include=FALSE}
 
 key <- Sys.getenv("CENSUS_API_KEY")
-
-if (key == "") {
-  stop("CENSUS_API_KEY not found in environment")
-}
-
-census_api_key(key, install = FALSE)
-
-
+if (key == "") stop("CENSUS_API_KEY not found in environment")
+census_api_key(key, install = FALSE, overwrite = TRUE)
 ```
 
 ```{r,include=FALSE}
