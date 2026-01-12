@@ -2,10 +2,57 @@
 title: "RKG_ProjectTest.github.io"
 ---
 
-This is a Quarto website.
+This is a sample site with some examples.
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
-
-```{r}
-1 + 1
+```{r,include=FALSE}
+library(tidycensus)
+library(tidyverse)
+library(ggiraph)
+library(patchwork)
+library(scales)
 ```
+
+
+```{r, include=FALSE}
+
+key <- Sys.getenv("CENSUS_API_KEY")
+
+if (key == "") {
+  stop("CENSUS_API_KEY not found in environment")
+}
+
+census_api_key(key, install = FALSE)
+
+
+```
+
+```{r,include=FALSE}
+
+maine <- get_decennial(
+  state = "Maine",
+  geography = "county",
+  variables = c(totalpop = "P1_001N"),
+  year = 2020
+) %>%
+  arrange(desc(value))
+
+```
+
+Maine has a variety of income levels across counties.
+Counties in Southern Maine tend to have higher incomes.
+
+```{r, echo=FALSE}
+
+ggplot(maine_income, aes(x = estimate, y = reorder(NAME, estimate))) + 
+  geom_errorbarh(aes(xmin = estimate - moe, xmax = estimate + moe)) + 
+  geom_point(size = 3, color = "darkgreen") + 
+  theme_minimal(base_size = 12.5) + 
+  labs(title = "Median household income", 
+       subtitle = "Counties in Maine", 
+       x = "2016-2020 ACS estimate", 
+       y = "") + 
+  scale_x_continuous(labels = label_dollar())
+
+
+```
+
