@@ -28,13 +28,13 @@ census_api_key(key, install = FALSE)
 
 ```{r,include=FALSE}
 
-maine <- get_decennial(
+maine_income <- get_acs(
   state = "Maine",
   geography = "county",
-  variables = c(totalpop = "P1_001N"),
+  variables = c(hhincome = "B19013_001"),
   year = 2020
 ) %>%
-  arrange(desc(value))
+  mutate(NAME = str_remove(NAME, " County, Maine"))
 
 ```
 
