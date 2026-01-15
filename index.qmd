@@ -2,9 +2,6 @@
 title: "RKG_ProjectTest.github.io"
 ---
 
-Here is a new change, did this work.
-
-
 This is a sample site with some examples.
 
 ```{r,include=FALSE}
@@ -13,11 +10,71 @@ library(tidyverse)
 library(ggiraph)
 library(patchwork)
 library(scales)
+library(dygraphs)
+library(xts)
 
 key <- Sys.getenv("CENSUS_API_KEY")
 if (key == "") stop("CENSUS_API_KEY not found in environment")
 census_api_key(key, install = FALSE, overwrite = TRUE)
 ```
+
+Very cool chart for temporal data
+```{r,include=FALSE}
+
+census_api_key("24c7a36f2a50d9d5da28c754c56ca83a9cd09130") # this is the RKG census API key
+
+
+latest_acs5_year <- {
+  candidates <- 2026:2009
+  ok <- map_lgl(candidates, ~{
+    tryCatch({
+      load_variables(.x, "acs5", cache = TRUE)
+      TRUE
+    }, error = function(e) FALSE)
+  })
+  max(candidates[ok])
+}
+
+
+years <- 2009:latest_acs5_year
+
+maine_income_ts <- map_dfr(years, function(yr) {
+  get_acs(
+    geography = "state",
+    state = "ME",
+    variables = c(hhincome = "B19013_001"),
+    year = yr,
+    survey = "acs5"
+  ) %>%
+    transmute(
+      year = yr,
+      NAME,
+      'Median HH Income' = estimate,
+      moe
+    )
+})
+
+maine_xts <- maine_income_ts %>%
+  arrange(year) %>%
+  mutate(date = as.Date(paste0(year, "-01-01"))) %>%
+  select(date, 'Median HH Income') %>%
+  xts(order.by = .$date)
+
+dygraph(maine_xts, main = "Maine Median Household Income (ACS 5-year)") %>%
+  dyLegend(show = "onmouseover") %>%
+  dyAxis(
+    "y",
+    axisLabelFormatter = "function(y){ return '$' + y.toLocaleString(); }",
+    valueFormatter     = "function(y){ return '$' + y.toLocaleString(); }"
+  ) %>%
+  dyAxis(
+    "x",
+    axisLabelFormatter = "function(d){ return new Date(d).getFullYear(); }"
+  ) %>%
+  dyRangeSelector()
+
+```
+
 
 ```{r,include=FALSE}
 
