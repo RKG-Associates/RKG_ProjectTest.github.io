@@ -7,17 +7,32 @@ title-block: none
 ---
 
 ```{=html}
-<iframe src="urbanform/index.html" class="urbanform-iframe"></iframe>
+<iframe id="map-iframe" src="urbanform/index.html" class="urbanform-iframe"></iframe>
+<script>
+(function() {
+  function positionIframe() {
+    var navbar = document.getElementById('quarto-header');
+    var iframe = document.getElementById('map-iframe');
+    if (navbar && iframe) {
+      var navbarHeight = navbar.offsetHeight;
+      iframe.style.top = navbarHeight + 'px';
+      iframe.style.height = 'calc(100vh - ' + navbarHeight + 'px)';
+    }
+  }
 
-<!-- Floating Navigation Menu -->
-<nav class="floating-nav">
-  <button class="floating-nav-toggle" onclick="this.nextElementSibling.classList.toggle('open')" aria-label="Toggle navigation">
-    ☰
-  </button>
-  <div class="floating-nav-menu">
-    <a href="index.html">Home</a>
-    <a href="urbanform.html" class="active">Urban Form Map</a>
-    <a href="about.html">About</a>
-  </div>
-</nav>
+  // Run immediately
+  positionIframe();
+
+  // Run when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', positionIframe);
+  }
+
+  // Run on window load (after all resources)
+  window.addEventListener('load', positionIframe);
+
+  // Run on resize
+  window.addEventListener('resize', positionIframe);
+})();
+</script>
 ```

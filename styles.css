@@ -1,102 +1,39 @@
 /* css styles */
 
 /*
- * Urban Form Map - Full viewport iframe with floating nav menu
+ * Urban Form Map - iframe positioned directly below navbar
+ * Navbar height is calculated dynamically via JavaScript
  */
 
-/* The iframe fills the entire screen */
 .urbanform-iframe {
   position: fixed !important;
-  top: 0 !important;
   left: 0 !important;
   right: 0 !important;
   bottom: 0 !important;
   width: 100vw !important;
-  height: 100vh !important;
   border: none !important;
-  z-index: 100 !important;
-  display: block !important;
-}
-
-/* When urbanform page: hide navbar and prevent scroll */
-body:has(.urbanform-iframe) {
-  overflow: hidden !important;
   margin: 0 !important;
   padding: 0 !important;
+  display: block !important;
+  z-index: 10;
 }
 
-body:has(.urbanform-iframe) #quarto-header {
-  display: none !important;
+/* Remove all padding/margin from containers on urbanform page */
+body:has(.urbanform-iframe) {
+  overflow: hidden !important;
 }
 
-/* Floating navigation menu */
-.floating-nav {
-  position: fixed;
-  top: 16px;
-  right: 16px;
-  z-index: 2000;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+body:has(.urbanform-iframe) #quarto-content {
+  padding: 0 !important;
+  margin: 0 !important;
 }
 
-.floating-nav-toggle {
-  width: 44px;
-  height: 44px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  border: none;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  color: #374151;
-  transition: all 0.2s ease;
+body:has(.urbanform-iframe) main {
+  padding: 0 !important;
+  margin: 0 !important;
 }
 
-.floating-nav-toggle:hover {
-  background: #fff;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-}
-
-.floating-nav-menu {
-  position: absolute;
-  top: 52px;
-  right: 0;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  min-width: 180px;
-  padding: 8px 0;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-10px);
-  transition: all 0.2s ease;
-}
-
-.floating-nav-menu.open {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
-
-.floating-nav-menu a {
-  display: block;
-  padding: 12px 20px;
-  color: #374151;
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: 500;
-  transition: background 0.15s ease;
-}
-
-.floating-nav-menu a:hover {
-  background: rgba(0, 0, 0, 0.05);
-}
-
-.floating-nav-menu a.active {
-  color: #4361EE;
-  background: rgba(67, 97, 238, 0.08);
+body:has(.urbanform-iframe) .page-layout-custom {
+  padding: 0 !important;
+  margin: 0 !important;
 }
