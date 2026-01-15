@@ -3,37 +3,34 @@
 /*
  * Urban Form Map - iframe positioned directly below navbar
  * Navbar height is calculated dynamically via JavaScript
+ * Note: Avoid :has() selector for mobile compatibility
  */
 
 .urbanform-iframe {
-  position: fixed !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  width: 100vw !important;
-  border: none !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  display: block !important;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  border: none;
+  margin: 0;
+  padding: 0;
+  display: block;
   z-index: 10;
 }
 
-/* Remove all padding/margin from containers on urbanform page */
-body:has(.urbanform-iframe) {
-  overflow: hidden !important;
+/* Page-specific overrides applied via page-layout: custom */
+.page-layout-custom #quarto-content {
+  padding: 0;
+  margin: 0;
 }
 
-body:has(.urbanform-iframe) #quarto-content {
-  padding: 0 !important;
-  margin: 0 !important;
+.page-layout-custom main {
+  padding: 0;
+  margin: 0;
 }
 
-body:has(.urbanform-iframe) main {
-  padding: 0 !important;
-  margin: 0 !important;
-}
-
-body:has(.urbanform-iframe) .page-layout-custom {
-  padding: 0 !important;
-  margin: 0 !important;
+.page-layout-custom .quarto-container {
+  padding: 0;
+  margin: 0;
 }

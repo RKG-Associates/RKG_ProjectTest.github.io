@@ -123,28 +123,48 @@ ul.task-list li input[type="checkbox"] {
 <script>
 (function() {
   function positionIframe() {
-    var navbar = document.getElementById('quarto-header');
+    // Try multiple selectors to find navbar
+    var navbar = document.getElementById('quarto-header')
+              || document.querySelector('.navbar')
+              || document.querySelector('nav.navbar')
+              || document.querySelector('header');
     var iframe = document.getElementById('map-iframe');
-    if (navbar && iframe) {
-      var navbarHeight = navbar.offsetHeight;
+
+    if (iframe) {
+      var navbarHeight = navbar ? navbar.offsetHeight : 0;
+
+      // Fallback: if navbar height is 0 or not found, use reasonable default
+      if (navbarHeight === 0) {
+        navbarHeight = 56;
+      }
+
+      iframe.style.position = 'fixed';
       iframe.style.top = navbarHeight + 'px';
+      iframe.style.left = '0';
+      iframe.style.right = '0';
+      iframe.style.bottom = '0';
+      iframe.style.width = '100%';
       iframe.style.height = 'calc(100vh - ' + navbarHeight + 'px)';
+      iframe.style.height = 'calc(100dvh - ' + navbarHeight + 'px)'; // Dynamic viewport for mobile
+      iframe.style.border = 'none';
+      iframe.style.margin = '0';
+      iframe.style.padding = '0';
+
+      // Also fix body overflow
+      document.body.style.overflow = 'hidden';
     }
   }
 
-  // Run immediately
+  // Run multiple times to catch different load states
   positionIframe();
 
-  // Run when DOM is ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', positionIframe);
-  }
-
-  // Run on window load (after all resources)
+  document.addEventListener('DOMContentLoaded', positionIframe);
   window.addEventListener('load', positionIframe);
-
-  // Run on resize
   window.addEventListener('resize', positionIframe);
+
+  // Extra check after short delay for mobile
+  setTimeout(positionIframe, 100);
+  setTimeout(positionIframe, 500);
 })();
 </script>
 
