@@ -3,22 +3,46 @@
 /* Full-page iframe for Urban Form Map */
 .urbanform-iframe {
   position: fixed;
-  top: 56px; /* Height of Quarto navbar */
+  /* Use CSS variable for navbar height, dynamically calculated */
+  top: var(--navbar-height, 56px);
   left: 0;
   width: 100vw;
-  height: calc(100vh - 56px);
+  height: calc(100vh - var(--navbar-height, 56px));
+  height: calc(100dvh - var(--navbar-height, 56px)); /* Dynamic viewport for mobile */
   border: none;
   z-index: 10;
+  display: block;
 }
 
 /* Hide default Quarto elements on the urbanform page */
 body:has(.urbanform-iframe) #quarto-content,
 body:has(.urbanform-iframe) .quarto-title,
-body:has(.urbanform-iframe) main.content {
+body:has(.urbanform-iframe) .quarto-title-block,
+body:has(.urbanform-iframe) main.content,
+body:has(.urbanform-iframe) header.quarto-title-block,
+body:has(.urbanform-iframe) h1.title {
   padding: 0 !important;
   margin: 0 !important;
+  display: none !important;
 }
 
 body:has(.urbanform-iframe) {
   overflow: hidden;
+}
+
+/* Dynamically set navbar height based on actual navbar */
+body:has(.urbanform-iframe) {
+  --navbar-height: 56px;
+}
+
+/* Ensure no gap - attach iframe directly below navbar */
+body:has(.urbanform-iframe) #quarto-content {
+  display: block !important;
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+body:has(.urbanform-iframe) main {
+  padding: 0 !important;
+  margin: 0 !important;
 }
