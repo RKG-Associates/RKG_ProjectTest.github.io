@@ -118,7 +118,28 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<iframe src="urbanform/index.html" class="urbanform-iframe"></iframe>
+<iframe src="urbanform/index.html" class="urbanform-iframe" id="map-iframe"></iframe>
+<script>
+  // Dynamically position iframe directly below navbar
+  function positionIframe() {
+    const navbar = document.querySelector('nav.navbar, .navbar, header nav, #quarto-header');
+    const iframe = document.getElementById('map-iframe');
+    if (navbar && iframe) {
+      const navbarHeight = navbar.getBoundingClientRect().height;
+      iframe.style.top = navbarHeight + 'px';
+      iframe.style.height = 'calc(100vh - ' + navbarHeight + 'px)';
+      iframe.style.height = 'calc(100dvh - ' + navbarHeight + 'px)';
+    }
+  }
+
+  // Run on load and resize
+  document.addEventListener('DOMContentLoaded', positionIframe);
+  window.addEventListener('resize', positionIframe);
+  window.addEventListener('load', positionIframe);
+
+  // Also run immediately in case DOM is already ready
+  positionIframe();
+</script>
 
 
 
