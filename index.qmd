@@ -147,6 +147,9 @@ maplibre(
  add_legend(
    "Median Household Income (USD)",
    values = continuous_scale$breaks,
+   labels = scales::label_dollar(scale_cut = scales::cut_short_scale())(
+  continuous_scale$breaks
+),
    colors = continuous_scale$colors,
    type = "continuous",
    layer_id = "income",
