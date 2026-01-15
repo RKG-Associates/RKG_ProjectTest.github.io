@@ -3,12 +3,12 @@
 /* Full-page iframe for Urban Form Map */
 .urbanform-iframe {
   position: fixed;
-  top: 0;
+  top: 56px; /* Height of Quarto navbar */
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: calc(100vh - 56px);
   border: none;
-  z-index: 999;
+  z-index: 10;
 }
 
 /* Hide default Quarto elements on the urbanform page */
