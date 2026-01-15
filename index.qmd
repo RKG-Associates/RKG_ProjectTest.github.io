@@ -21,9 +21,6 @@ census_api_key(key, install = FALSE, overwrite = TRUE)
 Very cool chart for temporal data
 ```{r,include=FALSE}
 
-census_api_key("24c7a36f2a50d9d5da28c754c56ca83a9cd09130") # this is the RKG census API key
-
-
 latest_acs5_year <- {
   candidates <- 2026:2009
   ok <- map_lgl(candidates, ~{
@@ -59,7 +56,9 @@ maine_xts <- maine_income_ts %>%
   mutate(date = as.Date(paste0(year, "-01-01"))) %>%
   select(date, 'Median HH Income') %>%
   xts(order.by = .$date)
+```
 
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 dygraph(maine_xts, main = "Maine Median Household Income (ACS 5-year)") %>%
   dyLegend(show = "onmouseover") %>%
   dyAxis(
@@ -72,7 +71,6 @@ dygraph(maine_xts, main = "Maine Median Household Income (ACS 5-year)") %>%
     axisLabelFormatter = "function(d){ return new Date(d).getFullYear(); }"
   ) %>%
   dyRangeSelector()
-
 ```
 
 
