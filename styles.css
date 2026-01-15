@@ -1,1 +1,24 @@
 /* css styles */
+
+/* Full-page iframe for Urban Form Map */
+.urbanform-iframe {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  border: none;
+  z-index: 999;
+}
+
+/* Hide default Quarto elements on the urbanform page */
+body:has(.urbanform-iframe) #quarto-content,
+body:has(.urbanform-iframe) .quarto-title,
+body:has(.urbanform-iframe) main.content {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+body:has(.urbanform-iframe) {
+  overflow: hidden;
+}

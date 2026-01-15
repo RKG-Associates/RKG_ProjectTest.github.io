@@ -2,11 +2,13 @@ project:
   type: website
 
 website:
-  title: "RKG_ProjectTest.github.io"
+  title: "RKG Project Test"
   navbar:
     left:
       - href: index.qmd
         text: Home
+      - href: urbanform.qmd
+        text: Urban Form Map
       - about.qmd
 
 format:
